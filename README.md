@@ -1,8 +1,6 @@
 # dsys-maintenance
 
 ## 🛠️ **System Maintenance & Health Check Script**
-
-**Author:** Prasit Chanda
 **Version:** 1.5.0-0706202522
 **Platform:** Debian/Ubuntu Linux
 
