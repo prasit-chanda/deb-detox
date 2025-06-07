@@ -1,12 +1,12 @@
 # dsys-maintenance
 
 ## 🛠️ **System Maintenance & Health Check Script**
-**Version:** 1.5.0-0706202522
+
 **Platform:** Debian/Ubuntu Linux
 
 ### 🔍 **Overview**
 
-This Bash script is a comprehensive, all-in-one system maintenance and diagnostic tool tailored for Debian-based Linux systems. It automates essential maintenance tasks while presenting real-time system information in a clean, structured, and user-friendly format.
+This Bash script is a comprehensive, all-in-one system maintenance and diagnostic tool tailored for Debian-based Linux systems. It automates essential maintenance tasks while presenting real-time system information in a clean, structured, and user-friendly format
 
 ---
 
@@ -18,6 +18,8 @@ This Bash script is a comprehensive, all-in-one system maintenance and diagnosti
 * Shows CPU, memory, and storage usage
 * Retrieves laptop battery status (ACPI/UPower compatible)
 * Lists top memory and CPU consuming processes
+* Network Information
+* Firewall Information
 
 #### ⚙️ System Maintenance
 
@@ -45,17 +47,16 @@ This Bash script is a comprehensive, all-in-one system maintenance and diagnosti
 * Step-by-step progress display with task tracking
 * Clean log file with section headers and timestamps
 * Elegant dividers and boxed headers for readability
-* Interactive reboot prompt if required
 
 ---
 
 ### 📂 **Output**
 
-All actions and summaries are saved to a timestamped log file for easy reference and troubleshooting.
+All actions and summaries are saved to a timestamped log file for easy reference and troubleshooting
 
 Instructions
 -------------
 1. Save it to workspace, e.g., dsys-maintenance.sh
 2. Make it executable by chmod +x dsys-maintenance.sh
 3. Run it by ./dsys-maintenance.sh
-4. Log are generated with folder SYSM
+4. Logs are generated with folder SYSM
