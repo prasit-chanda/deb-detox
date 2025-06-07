@@ -19,7 +19,6 @@ This Bash script is a comprehensive, all-in-one system maintenance and diagnosti
 * Retrieves laptop battery status (ACPI/UPower compatible)
 * Lists top memory and CPU consuming processes
 * Network Information
-* Firewall Information
 
 #### ⚙️ System Maintenance
 
