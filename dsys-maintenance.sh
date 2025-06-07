@@ -11,13 +11,13 @@
 # information in a clean, structured format.
 #
 # Key Features:
-# - 📊 System Info: OS, CPU, memory, storage, battery, processes, uptime
-# - ⚙️ Maintenance: apt update/upgrade, fix dependencies, cleanup, disk space freed
-# - 🔐 Security & Health: security updates, failed services, SMART disk health
-# - 🌐 Network: Internet speed test, firewall status
-# - 📦 Package Insight: Recently installed/upgraded packages
-# - 🧰 Config Backup: Backup of critical /etc files
-# - 🪄 UX: Step-by-step progress, formatted log, execution time display
+# - 📊  System Info: OS, CPU, memory, storage, battery, processes, uptime
+# - ⚙️  Maintenance: apt update/upgrade, fix dependencies, cleanup, disk space freed
+# - 🔐  Security & Health: security updates, failed services, SMART disk health
+# - 🌐  Network: Internet speed test, firewall status
+# - 📦  Package Insight: Recently installed/upgraded packages
+# - 🧰  Config Backup: Backup of critical /etc files
+# - 🪄  UX: Step-by-step progress, formatted log, execution time display
 #
 # Output:
 # All activity and results are saved in a timestamped log file for auditing.
@@ -72,13 +72,13 @@ mkdir -p "${LOG_DIR}"
     echo "This script automates essential system maintenance and displays diagnostic information in a clean, structured format."
     echo " "
     print_box "Key Features"
-    echo "- 📊 System Info: OS, CPU, memory, storage, battery, processes, uptime"
+    echo "- 📊  System Info: OS, CPU, memory, storage, battery, processes, uptime"
     echo "- ⚙️  Maintenance: apt update/upgrade, fix dependencies, cleanup, disk space freed"
-    echo "- 🔐 Security & Health: security updates, failed services, SMART disk health"
-    echo "- 🌐 Network: Internet speed test, firewall status"
-    echo "- 📦 Package Insight: Recently installed/upgraded packages"
-    echo "- 🧰 Config Backup: Backup of critical /etc files"
-    echo "- 🪄 UX: Step-by-step progress, formatted log, execution time display"
+    echo "- 🔐  Security & Health: security updates, failed services, SMART disk health"
+    echo "- 🌐  Network: Internet speed test, firewall status"
+    echo "- 📦  Package Insight: Recently installed/upgraded packages"
+    echo "- 🧰  Config Backup: Backup of critical /etc files"
+    echo "- 🪄  UX: Step-by-step progress, formatted log, execution time display"
     echo " "
     print_box "Output"
     echo "All activity and results are saved in a timestamped log file for auditing."
