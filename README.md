@@ -1,61 +1,57 @@
-# dsys-maintenance
+ 🛠️  System Maintenance & Health Check Script
+ 
+    Script    : dsys-maintenance.sh
+    Purpose   : Perform system updates, cleanups, backups, and health diagnostics
+    Author    : Prasit Chanda
+    Platform  : Debian/Ubuntu Linux
 
-## 🛠️ **System Maintenance & Health Check Script**
+ 📄 Overview:
+ 
+ This script automates essential system maintenance tasks and displays 
+ diagnostic information in a clear, structured format. It helps improve 
+ system performance, free up disk space, and monitor overall system health.
 
-**Platform:** Debian/Ubuntu Linux
+ ✅ Key Features:
 
-### 🔍 **Overview**
+ ── 📊 System Information ──
+    - OS details, CPU info, memory and storage usage
+    - Battery health, running processes, and system uptime
 
-This Bash script is a comprehensive, all-in-one system maintenance and diagnostic tool tailored for Debian-based Linux systems. It automates essential maintenance tasks while presenting real-time system information in a clean, structured, and user-friendly format
+ ── ⚙️ Maintenance Tasks ──
+    - Update package lists and upgrade system packages
+    - Fix broken or missing dependencies
+    - Auto-remove obsolete packages and purge leftovers
+    - Clean up system cache, user cache, and thumbnail previews
+    - Remove orphaned libraries and unused Snap/Flatpak versions
+    - Empty Trash and clear old system logs (older than 7 days)
+    - Clear content of log files to reclaim space without deleting logs
 
----
+ ── 🔐 Security & Health ──
+    - List available security updates
+    - Check for failed systemd services
+    - Display SMART disk health status
 
-### ✨ **Key Features**
+ ── 🌐 Network Diagnostics ──
+    - Test internet speed (download/upload)
+    - Show firewall (UFW) status
+    - Display default gateway and active network info
 
-#### 📊 System Info & Monitoring
+ ── 📦 Package Insight ──
+    - Show recently installed and upgraded packages
 
-* Displays OS, kernel, hostname, uptime, and load average
-* Shows CPU, memory, and storage usage
-* Retrieves laptop battery status (ACPI/UPower compatible)
-* Lists top memory and CPU consuming processes
-* Network Information
+ ── 🪄 User Experience ──
+    - Step-by-step status display with formatted output
+    - Tracks execution time and writes all activity to a timestamped log file
 
-#### ⚙️ System Maintenance
+ 📁 Output
+ 
+ All operations and diagnostic results are saved in a clearly structured 
+ log file, named with the current timestamp, for auditing and future review.
 
-* Updates and upgrades system packages
-* Fixes broken dependencies
-* Cleans apt cache, orphaned packages, and logs
-* Calculates disk space freed after cleanup
-* Tracks and formats execution time (`hh:mm:ss`)
+ 💡 Instructions
 
-#### 🔐 Security & Health
+    1. Save it to workspace, e.g., dsys-maintenance.sh
+    2. Make it executable by chmod +x dsys-maintenance.sh
+    3. Run it by ./dsys-maintenance.sh
+    4. Logs are generated with folder dsys-scrub
 
-* Checks available security updates (`unattended-upgrades`)
-* Displays failed services (`systemctl --failed`)
-* Verifies disk SMART health status (auto-detects drives)
-* Tests internet connection speed (`speedtest-cli`)
-* Displays firewall status (UFW or iptables)
-
-#### 📦 Package & Backup Support
-
-* Lists recently installed and upgraded packages
-* Backs up essential config files from `/etc`
-
-#### 📌 Presentation & User Experience
-
-* Step-by-step progress display with task tracking
-* Clean log file with section headers and timestamps
-* Elegant dividers and boxed headers for readability
-
----
-
-### 📂 **Output**
-
-All actions and summaries are saved to a timestamped log file for easy reference and troubleshooting
-
-Instructions
--------------
-1. Save it to workspace, e.g., dsys-maintenance.sh
-2. Make it executable by chmod +x dsys-maintenance.sh
-3. Run it by ./dsys-maintenance.sh
-4. Logs are generated with folder dsys-scrub
