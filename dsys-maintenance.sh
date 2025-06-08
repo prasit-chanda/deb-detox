@@ -1,9 +1,11 @@
 #!/bin/bash
 
 ###############################################################################
+#
 # 🛠️ System Maintenance & Health Check Script
+# Script    : dsys-maintenance.sh
+# Purpose   : System update, cleanup, and hardware diagnostics
 # Author    : Prasit Chanda
-# Version   : 1.5.0-0706202522
 # Platform  : Debian/Ubuntu Linux
 # 
 # Overview:
@@ -21,32 +23,25 @@
 #
 # Output:
 # All activity and results are saved in a timestamped log file for auditing.
+#
 ###############################################################################
-
-# ───────────────────────────────────────────────────────────────
-# Script: system_maintenance.sh
-# Purpose: System update, cleanup, and hardware diagnostics
-# Author: Prasit Chanda
-# Version: 1.5.0-0706202522
-# Date: 07 June 2025
-# Compatible: Debian-based systems
-# ───────────────────────────────────────────────────────────────
 
 # ───── Configuration ─────
 CURRENT_DATE=$(date +"%d-%B-%Y %r")
 TIMESTAMP=$(date +"%s")
 WORKING_DIR=$(pwd)
-LOG_DIR="${WORKING_DIR}/SYSM"
+LOG_DIR="${WORKING_DIR}/dsys-scrub"
 LOG_FILE="${LOG_DIR}/log${TIMESTAMP}.log"
 KERNEL=$(uname -r)
+VERSION="1.6.0-0906202531"
 
 # ───── Print Box ─────
 print_box() {
   local content="$1"
   local length=${#content}
-  local border=$(printf '─%.0s' $(seq 1 $((length + 2))))
+  local border=$(printf '─%.0s' $(seq 1 $((length + 0))))
   echo -e "┌${border}┐"
-  echo -e "  $content   "
+  echo -e " $content  "
   echo -e "└${border}┘"
 }
 
@@ -61,39 +56,39 @@ divider_custom() {
 clear
 mkdir -p "${LOG_DIR}"
 {
-    echo " "
-    echo "🛠️  System Maintenance & Health Check Script"
-    echo " "
-    echo "Author    : Prasit Chanda"
-    echo "Version   : 1.5.0-0706202522"
-    echo "Platform  : Debian/Ubuntu Linux"
-    echo " "
-    print_box "Overview"
-    echo "This script automates essential system maintenance and displays diagnostic information in a clean, structured format."
-    echo " "
-    print_box "Key Features"
-    echo "- 📊  System Info: OS, CPU, memory, storage, battery, processes, uptime"
-    echo "- ⚙️  Maintenance: apt update/upgrade, fix dependencies, cleanup, disk space freed"
-    echo "- 🔐  Security & Health: security updates, failed services, SMART disk health"
-    echo "- 🌐  Network: Internet speed test, firewall status"
-    echo "- 📦  Package Insight: Recently installed/upgraded packages"
-    echo "- 🧰  Config Backup: Backup of critical /etc files"
-    echo "- 🪄  UX: Step-by-step progress, formatted log, execution time display"
-    echo " "
-    print_box "Output"
-    echo "All activity and results are saved in a timestamped log file for auditing."
-    echo " "
-    sleep 0.1
+echo " "
+echo "🛠️  System Maintenance & Health Check Script" 
+echo " "
+echo "Author    : Prasit Chanda"
+echo "Version   : ${VERSION}"
+echo "Platform  : Debian/Ubuntu Linux"
+echo " "
+print_box "Overview"
+echo "This script automates essential system maintenance and displays diagnostic information in a clean, structured format."
+echo " "
+print_box "Key Features"
+echo "- 📊  System Info: OS, CPU, memory, storage, battery, processes, uptime"
+echo "- ⚙️  Maintenance: apt update/upgrade, fix dependencies, cleanup, disk space freed"
+echo "- 🔐  Security & Health: security updates, failed services, SMART disk health"
+echo "- 🌐  Network: Internet speed test, firewall status"
+echo "- 📦  Package Insight: Recently installed/upgraded packages"
+echo "- 🧰  Config Backup: Backup of critical /etc files"
+echo "- 🪄  UX: Step-by-step progress, formatted log, execution time display"
+echo " "
+print_box "Output"
+echo "All activity and results are saved in a timestamped log file for auditing."
+echo " "
 }
+sleep 0.1
 
 # ───── Log Header ─────
 {
-print_box " Debian System Maintenance"
+print_box "Debian System Maintenance"
 echo "Date: $CURRENT_DATE"
 } | tee "${LOG_FILE}"
 
 # ───── Remove APT Locks ─────
-echo -e "\nRemove APT Locks . . . . .\n" | tee -a "${LOG_FILE}"
+echo -e "\nRemoving APT Locks . . . . .\n" | tee -a "${LOG_FILE}"
 sudo rm -f /var/lib/apt/lists/lock /var/cache/apt/archives/lock /var/lib/dpkg/lock
 sudo dpkg --configure -a
 sleep 0.1
@@ -101,19 +96,19 @@ sleep 0.1
 # ───── System Information ─────
 print_box "System Information" | tee -a "${LOG_FILE}"
 {
-    echo "----------- OS Info -----------"
+    echo "----------- OS Information -----------"
     lsb_release -a 2>/dev/null
     echo
-    echo "----------- Host Info -----------"
+    echo "----------- Host Information -----------"
     hostnamectl
     echo
-    echo "----------- CPU Info -----------"
+    echo "----------- CPU Information -----------"
     lscpu | grep -E '^Model name|^CPU\(s\)|^Thread|^Socket|^Core'
     echo
-    echo "----------- RAM Info -----------"
+    echo "----------- RAM Information -----------"
     free -h
     echo
-    echo "----------- Storage Info -----------"
+    echo "----------- Storage Information -----------"
     lsblk -o NAME,SIZE,TYPE,MOUNTPOINT
     echo
     echo "----------- Top Disk Usage -----------"
@@ -125,6 +120,11 @@ sleep 0.1
 echo " " | tee -a "${LOG_FILE}"
 print_box "Network Info" | tee -a "${LOG_FILE}"
 ip -brief address show | tee -a "${LOG_FILE}"
+echo -ne "real ip \t\t\t" | tee -a "${LOG_FILE}" 
+curl -s ifconfig.me | tee -a "${LOG_FILE}"
+echo -e " " | tee -a "${LOG_FILE}"
+echo -ne "gateway \t\t\t" | tee -a "${LOG_FILE}" 
+ip route | grep default | awk '{print $3}' | tee -a "${LOG_FILE}"
 sleep 0.1
 
 # ───── Internet Speed ─────
@@ -153,8 +153,7 @@ sleep 0.1
 
 # ───── Disk Health (SMART) [Optional] ─────
 echo " " | tee -a "${LOG_FILE}"
-print_box "Disk Health" | tee -a "${LOG_FILE}"
-echo -e "\nDisk Health (SMART):" | tee -a "${LOG_FILE}"
+print_box "Disk Health (SMART)" | tee -a "${LOG_FILE}"
 if command -v smartctl &>/dev/null; then
     DISKS=$(lsblk -dno NAME)
     for disk in $DISKS; do
@@ -173,7 +172,7 @@ command -v ufw &>/dev/null && sudo ufw status verbose | tee -a "${LOG_FILE}"
 sleep 0.1
 
 # ───── Update & Upgrade ─────
-echo " " | tee -a "${LOG_FILE}"
+#echo " " | tee -a "${LOG_FILE}"
 print_box "Update & Upgrade Packages" | tee -a "${LOG_FILE}"
 sudo apt update | tee -a "${LOG_FILE}"
 sudo apt upgrade -y | tee -a "${LOG_FILE}"
@@ -183,7 +182,9 @@ sleep 0.1
 # ───── Recently Installed Packages ─────
 echo " " | tee -a "${LOG_FILE}"
 print_box "Recently Packages" | tee -a "${LOG_FILE}"
-grep " install " /var/log/dpkg.log | tail -10 | tee -a "${LOG_FILE}"
+if ! grep " install " /var/log/dpkg.log | tail -10 | tee -a "${LOG_FILE}" | grep -q .; then
+    echo "No recent package installations found" | tee -a "${LOG_FILE}"
+fi
 sleep 0.1
 
 # ───── Uptime & Load ─────
@@ -196,7 +197,7 @@ sleep 0.1
 # ───── Battery & Temperature Info ─────
 echo " " | tee -a "${LOG_FILE}"
 print_box "Battery Information" | tee -a "${LOG_FILE}"
-echo -e "\\nBattery Information:" | tee -a "${LOG_FILE}"
+echo -e "Battery Information:" | tee -a "${LOG_FILE}"
 if command -v acpi &>/dev/null; then
     acpi -b | tee -a "${LOG_FILE}"
 elif command -v upower &>/dev/null; then
@@ -231,10 +232,35 @@ echo -e "Disk space before cleanup (in 1K-blocks): $BEFORE_CLEAN" | tee -a "${LO
 sleep 0.1
 
 # ───── Cleanup ─────
-echo -e "\nCleaning up . . . . ." | tee -a "${LOG_FILE}"
+echo -e "Cleaning up apt . . . . ." | tee -a "${LOG_FILE}"
 sudo apt autoremove -y | tee -a "${LOG_FILE}"
+sudo apt autoremove --purge -y | tee -a "${LOG_FILE}"
 sudo apt autoclean -y | tee -a "${LOG_FILE}"
 sudo apt clean -y | tee -a "${LOG_FILE}"
+echo -e "Cleaning thumbnail cache . . . . ."| tee -a "${LOG_FILE}"
+sudo rm -rf ~/.cache/thumbnails/* | tee -a "${LOG_FILE}"
+echo -e "Cleaning user-level cache files . . . . ." | tee -a "${LOG_FILE}"
+sudo rm -rf ~/.cache/* | tee -a "${LOG_FILE}"
+echo -e "Cleaning old system logs . . . . ." | tee -a "${LOG_FILE}"
+sudo journalctl --vacuum-time=7d | tee -a "${LOG_FILE}"
+echo -e "Emptying Trash folders . . . . ." | tee -a "${LOG_FILE}"
+sudo rm -rf ~/.local/share/Trash/* | tee -a "${LOG_FILE}"
+echo -e "Removing old Snap package versions . . . . ." | tee -a "${LOG_FILE}"
+snap list --all | awk '/disabled/{print $1, $2}' | while read snapname version; do
+    sudo snap remove "$snapname" --revision="$version"  | tee -a "${LOG_FILE}"
+done
+echo -e "Removing orphaned packages . . . . ." | tee -a "${LOG_FILE}"
+sudo deborphan | xargs sudo apt-get -y remove --purge | tee -a "${LOG_FILE}"
+echo -e "Cleaning logs . . . . ." | tee -a "${LOG_FILE}"
+sudo find /var/log -type f -name "*.log" -exec truncate -s 0 {} \; | tee -a "${LOG_FILE}"
+if command -v flatpak &> /dev/null; then
+    echo -e "Cleaning unused Flatpak versions . . . . ." | tee -a "${LOG_FILE}"
+    sudo flatpak uninstall --unused -y | tee -a "${LOG_FILE}"
+else
+    echo -e "Flatpak is not installed" | tee -a "${LOG_FILE}"
+fi
+echo " " | tee -a "${LOG_FILE}"
+sleep 0.1
 
 # ───── Disk Usage After Cleanup ─────
 print_box "Disk Usage After Cleanup" | tee -a "${LOG_FILE}"
@@ -257,7 +283,8 @@ sleep 0.1
 # ───── Footer ─────
 echo " " | tee -a "${LOG_FILE}"
 divider_custom "#" 45 | tee -a "${LOG_FILE}"
-echo "Prasit Chanda © 2015 – $(date +"%Y")" | tee -a "${LOG_FILE}"
-echo "Version 1.5.0-0706202522" | tee -a "${LOG_FILE}"
+echo "Prasit Chanda © 2015 - $(date +"%Y")" | tee -a "${LOG_FILE}"
+echo "Version ${VERSION}" | tee -a "${LOG_FILE}"
 divider_custom "#" 45 | tee -a "${LOG_FILE}"
 echo " " | tee -a "${LOG_FILE}"
+exit
