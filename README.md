@@ -7,8 +7,9 @@
 
  📄 Overview:
  
-    This script automates essential system maintenance tasks and displays diagnostic information in a clear, structured format. 
-    It helps improve system performance, free up disk space, and monitor overall system health.
+    This script automates essential system maintenance tasks and displays diagnostic information 
+    in a clear, structured format. It helps improve system performance, free up disk space, and 
+    monitor overall system health.
 
  ✅ Key Features:
  
@@ -39,8 +40,8 @@
         
  📁 Output
  
-    All operations and diagnostic results are saved in a clearly structured log file, named with the current timestamp, 
-    for auditing and future review.
+    All operations and diagnostic results are saved in a clearly structured log file, named with 
+    the current timestamp, for auditing and future review.
 
  💡 Instructions
 
