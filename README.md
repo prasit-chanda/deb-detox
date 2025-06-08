@@ -58,4 +58,4 @@ Instructions
 1. Save it to workspace, e.g., dsys-maintenance.sh
 2. Make it executable by chmod +x dsys-maintenance.sh
 3. Run it by ./dsys-maintenance.sh
-4. Logs are generated with folder SYSM
+4. Logs are generated with folder dsys-scrub
