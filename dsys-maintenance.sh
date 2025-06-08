@@ -248,6 +248,7 @@ M=$(((DURATION % 3600) / 60))
 S=$((DURATION % 60))
 echo -e "Disk space after cleanup (in 1K-blocks): $AFTER_CLEAN" | tee -a "${LOG_FILE}"
 echo -e "Estimated space freed: ${FREED_MB} MiB" | tee -a "${LOG_FILE}"
+echo "End Time: $(date +"%d-%B-%Y %r")" | tee -a "${LOG_FILE}"
 echo -e "\nTotal Execution Time: ${H}h ${M}m ${S}s" | tee -a "${LOG_FILE}"
 echo "Log File: $LOG_FILE"
 echo -e "System maintenance completed successfully." | tee -a "${LOG_FILE}"
@@ -256,7 +257,6 @@ sleep 0.1
 # ───── Footer ─────
 echo " " | tee -a "${LOG_FILE}"
 divider_custom "#" 45 | tee -a "${LOG_FILE}"
-echo "End Time: $(date +"%d-%B-%Y %r")" | tee -a "${LOG_FILE}"
 echo "Prasit Chanda © 2015 – $(date +"%Y")" | tee -a "${LOG_FILE}"
 echo "Version 1.5.0-0706202522" | tee -a "${LOG_FILE}"
 divider_custom "#" 45 | tee -a "${LOG_FILE}"
