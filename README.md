@@ -7,24 +7,24 @@
 
  📄 Overview:
  
- This script automates essential system maintenance tasks and displays 
- diagnostic information in a clear, structured format. It helps improve 
- system performance, free up disk space, and monitor overall system health.
+    This script automates essential system maintenance tasks and displays 
+    diagnostic information in a clear, structured format. It helps improve 
+    system performance, free up disk space, and monitor overall system health.
 
  ✅ Key Features:
 
  ── 📊 System Information ──
-    - OS details, CPU info, memory and storage usage
-    - Battery health, running processes, and system uptime
+    OS details, CPU info, memory and storage usage
+    Battery health, running processes, and system uptime
 
  ── ⚙️ Maintenance Tasks ──
-    - Update package lists and upgrade system packages
-    - Fix broken or missing dependencies
-    - Auto-remove obsolete packages and purge leftovers
-    - Clean up system cache, user cache, and thumbnail previews
-    - Remove orphaned libraries and unused Snap/Flatpak versions
-    - Empty Trash and clear old system logs (older than 7 days)
-    - Clear content of log files to reclaim space without deleting logs
+    Update package lists and upgrade system packages
+    Fix broken or missing dependencies
+    Auto-remove obsolete packages and purge leftovers
+    Clean up system cache, user cache, and thumbnail previews
+    Remove orphaned libraries and unused Snap/Flatpak versions
+    Empty Trash and clear old system logs (older than 7 days)
+    Clear content of log files to reclaim space without deleting logs
 
  ── 🔐 Security & Health ──
     - List available security updates
@@ -45,8 +45,8 @@
 
  📁 Output
  
- All operations and diagnostic results are saved in a clearly structured 
- log file, named with the current timestamp, for auditing and future review.
+    All operations and diagnostic results are saved in a clearly structured 
+    log file, named with the current timestamp, for auditing and future review.
 
  💡 Instructions
 
