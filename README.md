@@ -12,10 +12,9 @@
     system performance, free up disk space, and monitor overall system health.
 
  ✅ Key Features:
-
- ── 📊 System Information ──
-    OS details, CPU info, memory and storage usage
-    Battery health, running processes, and system uptime
+    ── 📊 System Information ──
+        OS details, CPU info, memory and storage usage
+        Battery health, running processes, and system uptime
 
  ── ⚙️ Maintenance Tasks ──
     Update package lists and upgrade system packages
