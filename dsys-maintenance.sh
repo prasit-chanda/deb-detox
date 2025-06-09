@@ -3,51 +3,56 @@
 ###############################################################################
 #
 # 🛠️  System Maintenance & Health Check Script
-# Script    : dsys-maintenance.sh
-# Purpose   : Perform system updates, cleanups, backups, and health diagnostics
-# Author    : Prasit Chanda
-# Platform  : Debian/Ubuntu Linux
+# 
+#    Script    : dsys-maintenance.sh
+#    Purpose   : Perform system updates, cleanups, backups, and health diagnostics
+#    Author    : Prasit Chanda
+#    Platform  : Debian/Ubuntu Linux
 #
 # 📄 Overview:
-# This script automates essential system maintenance tasks and displays 
-# diagnostic information in a clear, structured format. It helps improve 
-# system performance, free up disk space, and monitor overall system health.
+# 
+#    This script automates essential system maintenance tasks and displays diagnostic information 
+#    in a clear, structured format. It helps improve system performance, free up disk space, and 
+#    monitor overall system health.
 #
 # ✅ Key Features:
+# 
+#    ── 📊 System Information ──
+#        - OS details, CPU info, memory and storage usage
+#        - Battery health, running processes, and system uptime
+#    ── ⚙️ Maintenance Tasks ──
+#        - Update package lists and upgrade system packages
+#        - Fix broken or missing dependencies
+#        - Auto-remove obsolete packages and purge leftovers
+#        - Clean up system cache, user cache, and thumbnail previews
+#        - Remove orphaned libraries and unused Snap/Flatpak versions
+#        - Empty Trash and clear old system logs (older than 7 days)
+#        - Clear content of log files to reclaim space without deleting logs
+#    ── 🔐 Security & Health ──
+#        - List available security updates
+#        - Check for failed systemd services
+#        - Display SMART disk health status
+#    ── 🌐 Network Diagnostics ──
+#        - Test internet speed (download/upload)
+#        - Show firewall (UFW) status
+#        - Display default gateway and active network info
+#    ── 📦 Package Insight ──
+#        - Show recently installed and upgraded packages
+#    ── 🪄 User Experience ──
+#        - Step-by-step status display with formatted output
+#        - Tracks execution time and writes all activity to a timestamped log file
+#        
+# 📁 Output
+# 
+#    All operations and diagnostic results are saved in a clearly structured log file, named with 
+#    the current timestamp, for auditing and future review.
 #
-# ── 📊 System Information ──
-# - OS details, CPU info, memory and storage usage
-# - Battery health, running processes, and system uptime
+# 💡 Instructions
 #
-# ── ⚙️ Maintenance Tasks ──
-# - Update package lists and upgrade system packages
-# - Fix broken or missing dependencies
-# - Auto-remove obsolete packages and purge leftovers
-# - Clean up system cache, user cache, and thumbnail previews
-# - Remove orphaned libraries and unused Snap/Flatpak versions
-# - Empty Trash and clear old system logs (older than 7 days)
-# - Clear content of log files to reclaim space without deleting logs
-#
-# ── 🔐 Security & Health ──
-# - List available security updates
-# - Check for failed systemd services
-# - Display SMART disk health status
-#
-# ── 🌐 Network Diagnostics ──
-# - Test internet speed (download/upload)
-# - Show firewall (UFW) status
-# - Display default gateway and active network info
-#
-# ── 📦 Package Insight ──
-# - Show recently installed and upgraded packages
-#
-# ── 🪄 User Experience ──
-# - Step-by-step status display with formatted output
-# - Tracks execution time and writes all activity to a timestamped log file
-#
-# 📁 Output:
-# All operations and diagnostic results are saved in a clearly structured 
-# log file, named with the current timestamp, for auditing and future review.
+#    1. Save it to workspace, e.g., dsys-maintenance.sh
+#    2. Make it executable by chmod +x dsys-maintenance.sh
+#    3. Run it by ./dsys-maintenance.sh
+#    4. Logs are generated with folder dsys-scrub
 #
 ###############################################################################
 
@@ -58,52 +63,117 @@ WORKING_DIR=$(pwd)
 LOG_DIR="${WORKING_DIR}/dsys-scrub"
 LOG_FILE="${LOG_DIR}/log${TIMESTAMP}.log"
 KERNEL=$(uname -r)
-VERSION="1.6.0-0906202531"
+VERSION="1.6.0-0906202567"
 
 # ───── Print Box ─────
 print_box() {
   local content="$1"
-  local length=${#content}
-  local border=$(printf '─%.0s' $(seq 1 $((length + 0))))
-  echo -e "┌${border}┐"
-  echo -e " $content  "
-  echo -e "└${border}┘"
+  local padding=2
+  local IFS=$'\n'
+  local lines=($content)
+  local max_length=0
+  # Find the longest line
+  for line in "${lines[@]}"; do
+    (( ${#line} > max_length )) && max_length=${#line}
+  done
+  local box_width=$((max_length + padding * 2))
+  local border_top="╔$(printf '═%.0s' $(seq 1 $box_width))╗"
+  local border_bottom="╚$(printf '═%.0s' $(seq 1 $box_width))╝"
+  echo "$border_top"
+  for line in "${lines[@]}"; do
+    local total_space=$((box_width - ${#line}))
+    local left_space=$((total_space / 2))
+    local right_space=$((total_space - left_space))
+    printf "%*s%s%*s\n" "$left_space" "" "$line" "$right_space" ""
+  done
+  echo "$border_bottom"
 }
 
-# ───── Custom Divider ─────
-divider_custom() {
-  local char="$1"
-  local width="$2"
-  printf '%*s\n' "$width" '' | tr ' ' "$char"
+# ───── Custom Divider and Header ─────
+fancy_divider() {
+  local width=${1:-30}       # total width of the divider
+  local emoji=${2:-"•"}     # emoji character to repeat (default: fire)
+  local line=""
+  # Repeat emoji to fill or exceed width
+  while [ ${#line} -lt "$width" ]; do
+    line+="$emoji"
+  done
+  # Trim the line to exact width (in characters)
+  echo "${line:0:width}"
+}
+fancy_header() {
+  local label="$1"
+  local total_width=${80}
+  local padding_width=$(( (total_width - ${#label} - 2) / 2 ))
+  printf '%*s' "$padding_width" '' | tr ' ' '='
+  printf " %s " "$label"
+  printf '%*s\n' "$padding_width" '' | tr ' ' '='
 }
 
 # ───── Create log directory ─────
-clear
 mkdir -p "${LOG_DIR}"
+
+# ───── Script Starts ─────
+clear
+echo "*ੈ✩‧₊˚༺☆༻⋆.ೃ࿔*:･*ੈ✩‧₊ ִֶָ 𓈈°❀⋆.ೃ࿔* ִֶָ 𓈈°❀⋆.ೃ࿔*˚𓂃 ࣪˖ ִֶָ 𓈈°❀⋆.ೃ࿔*:･"
+echo -e "\033[38;5;245m"
 {
-echo " "
-echo "🛠️  System Maintenance & Health Check Script" 
-echo " "
-echo "Author    : Prasit Chanda"
-echo "Version   : ${VERSION}"
-echo "Platform  : Debian/Ubuntu Linux"
-echo " "
-print_box "Overview"
-echo "This script automates essential system maintenance and displays diagnostic information in a clean, structured format."
-echo " "
-print_box "Key Features"
-echo "- 📊  System Info: OS, CPU, memory, storage, battery, processes, uptime"
-echo "- ⚙️  Maintenance: apt update/upgrade, fix dependencies, cleanup, disk space freed"
-echo "- 🔐  Security & Health: security updates, failed services, SMART disk health"
-echo "- 🌐  Network: Internet speed test, firewall status"
-echo "- 📦  Package Insight: Recently installed/upgraded packages"
-echo "- 🧰  Config Backup: Backup of critical /etc files"
-echo "- 🪄  UX: Step-by-step progress, formatted log, execution time display"
-echo " "
-print_box "Output"
-echo "All activity and results are saved in a timestamped log file for auditing."
-echo " "
-}
+echo " 
+ 🛠️  System Maintenance & Health Check Script
+ 
+    Script    : dsys-maintenance.sh
+    Purpose   : Perform system updates, cleanups, backups, and health diagnostics
+    Author    : Prasit Chanda
+    Platform  : Debian/Ubuntu Linux
+
+ 📄 Overview
+ 
+    This script automates essential system maintenance tasks and displays diagnostic information 
+    in a clear, structured format. It helps improve system performance, free up disk space, and 
+    monitor overall system health.
+
+ ✅ Key Features
+ 
+    ── 📊 System Information ──
+            - OS details, CPU info, memory and storage usage
+            - Battery health, running processes, and system uptime
+    ── ⚙️  Maintenance Tasks ──
+            - Update package lists and upgrade system packages
+            - Fix broken or missing dependencies
+            - Auto-remove obsolete packages and purge leftovers
+            - Clean up system cache, user cache, and thumbnail previews
+            - Remove orphaned libraries and unused Snap/Flatpak versions
+            - Empty Trash and clear old system logs (older than 7 days)
+            - Clear content of log files to reclaim space without deleting logs
+    ── 🔐 Security & Health ──
+            - List available security updates
+            - Check for failed systemd services
+            - Display SMART disk health status
+    ── 🌐 Network Diagnostics ──
+            - Test internet speed (download/upload)
+            - Show firewall (UFW) status
+            - Display default gateway and active network info
+    ── 📦 Package Insight ──
+            - Show recently installed and upgraded packages
+    ── 🪄 User Experience ──
+            - Step-by-step status display with formatted output
+            - Tracks execution time and writes all activity to a timestamped log file
+        
+ 📁 Output
+ 
+    All operations and diagnostic results are saved in a clearly structured log file, named with 
+    the current timestamp, for auditing and future review.
+
+ 💡 Instructions
+
+        1. Save it to workspace, e.g., dsys-maintenance.sh
+        2. Make it executable by chmod +x dsys-maintenance.sh
+        3. Run it by ./dsys-maintenance.sh
+        4. Logs are generated with folder dsys-scrub"
+echo ""
+echo "𝄃𝄃𝄂𝄂𝄀𝄁𝄃𝄂𝄂𝄃𝄃𝄃𝄂𝄂𝄀𝄁𝄃𝄂𝄂𝄃𝄃𝄃𝄂𝄂𝄀𝄁𝄃𝄂𝄂𝄃𝄃𝄃𝄂𝄂𝄀𝄁𝄃𝄂𝄂𝄃𝄃𝄃𝄂𝄂𝄀𝄁𝄃𝄂𝄂𝄃𝄃𝄃𝄂𝄂𝄀𝄁𝄃𝄂𝄂𝄃𝄃𝄃𝄂𝄂𝄀𝄁𝄃𝄂𝄂𝄃𝄃𝄃𝄂𝄂𝄀𝄁𝄃𝄂𝄂𝄃𝄃𝄃𝄂𝄂𝄀𝄁𝄃𝄂𝄂𝄃𝄃𝄃𝄂𝄂𝄀𝄁𝄃𝄂𝄂𝄃𝄃"
+echo ""
+} 
 sleep 0.1
 
 # ───── Log Header ─────
@@ -121,29 +191,29 @@ sleep 0.1
 # ───── System Information ─────
 print_box "System Information" | tee -a "${LOG_FILE}"
 {
-    echo "----------- OS Information -----------"
+    fancy_header " OS Information "
     lsb_release -a 2>/dev/null
     echo
-    echo "----------- Host Information -----------"
+    fancy_header " Host Information "
     hostnamectl
     echo
-    echo "----------- CPU Information -----------"
+    fancy_header " CPU Information "
     lscpu | grep -E '^Model name|^CPU\(s\)|^Thread|^Socket|^Core'
     echo
-    echo "----------- RAM Information -----------"
+    fancy_header " RAM Information "
     free -h
     echo
-    echo "----------- Storage Information -----------"
+    fancy_header " Storage Information "
     lsblk -o NAME,SIZE,TYPE,MOUNTPOINT
     echo
-    echo "----------- Top Disk Usage -----------"
+    fancy_header " Top Disk Usage "
     df -h | sort -hr -k 5 | head -n 10
 } | tee -a "${LOG_FILE}"
 sleep 0.1
 
-# ───── Network Info ─────
+# ───── Network Information ─────
 echo " " | tee -a "${LOG_FILE}"
-print_box "Network Info" | tee -a "${LOG_FILE}"
+print_box "Network Information" | tee -a "${LOG_FILE}"
 ip -brief address show | tee -a "${LOG_FILE}"
 echo -ne "real ip \t\t\t" | tee -a "${LOG_FILE}" 
 curl -s ifconfig.me | tee -a "${LOG_FILE}"
@@ -168,15 +238,27 @@ sleep 0.1
 echo " " | tee -a "${LOG_FILE}"
 print_box "Security Updates" | tee -a "${LOG_FILE}"
 if dpkg -l | grep -q unattended-upgrades; then
-    sudo unattended-upgrade --dry-run -d | grep "Checking" -A 100 | tee -a "${LOG_FILE}"
+    echo "Running dry-run of unattended-upgrades..." | tee -a "${LOG_FILE}"
+    OUTPUT=$(sudo unattended-upgrade --dry-run -d | grep "Checking" -A 100)
+    if [ -n "$OUTPUT" ]; then
+        echo "$OUTPUT" | tee -a "${LOG_FILE}"
+    else
+        echo "No packages found for upgrade." | tee -a "${LOG_FILE}"
+    fi
 else
     echo "unattended-upgrades not installed. Installing it..." | tee -a "${LOG_FILE}"
     sudo apt install unattended-upgrades -y | tee -a "${LOG_FILE}"
-    sudo unattended-upgrade --dry-run -d | grep "Checking" -A 100 | tee -a "${LOG_FILE}"
+    echo "Running dry-run of unattended-upgrades..." | tee -a "${LOG_FILE}"
+    OUTPUT=$(sudo unattended-upgrade --dry-run -d | grep "Checking" -A 100)
+    if [ -n "$OUTPUT" ]; then
+        echo "$OUTPUT" | tee -a "${LOG_FILE}"
+    else
+        echo "No packages found for upgrade." | tee -a "${LOG_FILE}"
+    fi
 fi
 sleep 0.1
 
-# ───── Disk Health (SMART) [Optional] ─────
+# ───── Disk Health (SMART) ─────
 echo " " | tee -a "${LOG_FILE}"
 print_box "Disk Health (SMART)" | tee -a "${LOG_FILE}"
 if command -v smartctl &>/dev/null; then
@@ -251,7 +333,8 @@ sleep 0.1
 
 # ───── Disk Usage Before Cleanup ─────
 echo " " | tee -a "${LOG_FILE}"
-print_box "Disk Usage Before Cleanup" | tee -a "${LOG_FILE}"
+print_box "Disk Cleanup" | tee -a "${LOG_FILE}"
+fancy_header " Disk Usage Before Cleanup " | tee -a "${LOG_FILE}"
 BEFORE_CLEAN=$(df / | awk 'NR==2 {print $4}')
 echo -e "Disk space before cleanup (in 1K-blocks): $BEFORE_CLEAN" | tee -a "${LOG_FILE}"
 sleep 0.1
@@ -288,7 +371,7 @@ echo " " | tee -a "${LOG_FILE}"
 sleep 0.1
 
 # ───── Disk Usage After Cleanup ─────
-print_box "Disk Usage After Cleanup" | tee -a "${LOG_FILE}"
+fancy_header " Disk Usage After Cleanup " | tee -a "${LOG_FILE}"
 AFTER_CLEAN=$(df / | awk 'NR==2 {print $4}')
 FREED=$((AFTER_CLEAN - BEFORE_CLEAN))
 FREED_MB=$((FREED / 1024))
@@ -307,9 +390,11 @@ sleep 0.1
 
 # ───── Footer ─────
 echo " " | tee -a "${LOG_FILE}"
-divider_custom "#" 45 | tee -a "${LOG_FILE}"
+fancy_divider 35 | tee -a "${LOG_FILE}"
 echo "Prasit Chanda © 2015 - $(date +"%Y")" | tee -a "${LOG_FILE}"
 echo "Version ${VERSION}" | tee -a "${LOG_FILE}"
-divider_custom "#" 45 | tee -a "${LOG_FILE}"
-echo " " | tee -a "${LOG_FILE}"
+fancy_divider 35 | tee -a "${LOG_FILE}"
+echo -e "\033[0m"
+echo "*ੈ✩‧₊˚༺☆༻⋆.ೃ࿔*:･*ੈ✩‧₊ ִֶָ 𓈈°❀⋆.ೃ࿔* ִֶָ 𓈈°❀⋆.ೃ࿔*˚𓂃 ࣪˖ ִֶָ 𓈈°❀⋆.ೃ࿔*:･"
+echo " "
 exit
