@@ -1,6 +1,6 @@
  🛠️  System Maintenance & Health Check Script
  
-    Script    : dsys-maintenance.sh
+    Script    : debian-detox.sh
     Purpose   : Perform system updates, cleanups, backups, and health diagnostics
     Author    : Prasit Chanda
     Platform  : Debian/Ubuntu Linux
@@ -45,7 +45,7 @@
 
  💡 Instructions
 
-    1. Save it to workspace, e.g., dsys-maintenance.sh
-    2. Make it executable by chmod +x dsys-maintenance.sh
-    3. Run it by ./dsys-maintenance.sh
-    4. Logs are generated within folder dsys-scrub
+    1. Save it to workspace, e.g., debian-detox.sh
+    2. Make it executable by chmod +x debian-detox.sh
+    3. Run it by ./debian-detox.sh
+    4. Logs are generated within folder debian-detox
