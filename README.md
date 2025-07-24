@@ -1,51 +1,81 @@
- 🛠️  System Maintenance & Health Check Script
- 
-    Script    : debian-detox.sh
-    Purpose   : Perform system updates, cleanups, backups, and health diagnostics
-    Author    : Prasit Chanda
-    Platform  : Debian/Ubuntu Linux
+# 🛠️ debian-detox.sh — System Maintenance & Health Check Script
 
- 📄 Overview:
- 
-    This script automates essential system maintenance tasks and displays diagnostic information 
-    in a clear, structured format. It helps improve system performance, free up disk space, and 
-    monitor overall system health.
+**Author**: Prasit Chanda  
+**Platform**: Debian / Ubuntu Linux  
+**Script Name**: `debian-detox.sh`  
 
- ✅ Key Features:
- 
-    ── 📊 System Information ──
-        - OS details, CPU info, memory and storage usage
-        - Battery health, running processes, and system uptime
-    ── ⚙️ Maintenance Tasks ──
-        - Update package lists and upgrade system packages
-        - Fix broken or missing dependencies
-        - Auto-remove obsolete packages and purge leftovers
-        - Clean up system cache, user cache, and thumbnail previews
-        - Remove orphaned libraries and unused Snap/Flatpak versions
-        - Empty Trash and clear old system logs (older than 7 days)
-        - Clear content of log files to reclaim space without deleting logs
-    ── 🔐 Security & Health ──
-        - List available security updates
-        - Check for failed systemd services
-        - Display SMART disk health status
-    ── 🌐 Network Diagnostics ──
-        - Test internet speed (download/upload)
-        - Show firewall (UFW) status
-        - Display default gateway and active network info
-    ── 📦 Package Insight ──
-        - Show recently installed and upgraded packages
-    ── 🪄 User Experience ──
-        - Step-by-step status display with formatted output
-        - Tracks execution time and writes all activity to a timestamped log file
-        
- 📁 Output
- 
-    All operations and diagnostic results are saved in a clearly structured log file, named with 
-    the current timestamp, for auditing and future review.
+---
 
- 💡 Instructions
+## 📌 Purpose
 
-    1. Save it to workspace, e.g., debian-detox.sh
-    2. Make it executable by chmod +x debian-detox.sh
-    3. Run it by ./debian-detox.sh
-    4. Logs are generated within folder debian-detox
+`debian-detox.sh` is a comprehensive system maintenance and diagnostic tool for Debian-based Linux distributions. It automates routine cleanup, optimization, backup, and health-check tasks—helping you keep your system fast, secure, and healthy.
+
+---
+
+## ✨ Features
+
+### 📊 System Overview
+- OS version, CPU, memory, and disk usage  
+- Battery status, running processes, and uptime
+
+### ⚙️ Maintenance & Cleanup
+- Update and upgrade system packages
+- Fix broken dependencies  
+- Auto-remove obsolete packages  
+- Purge residual configurations  
+- Clear system/user cache and thumbnail previews  
+- Remove orphaned libraries and outdated Snap/Flatpak versions  
+- Clean Trash and log files older than 7 days  
+- Truncate (not delete) logs to free up space safely
+
+### 🔐 Security & Health Monitoring
+- Check for available security updates  
+- Detect failed `systemd` services  
+- Show SMART disk health status
+
+### 🌐 Network Diagnostics
+- Run internet speed tests (download/upload)  
+- Display UFW (firewall) status  
+- Show active network interface and default gateway
+
+### 📦 Package Insights
+- List recently installed and upgraded packages
+
+### 🪄 User Experience
+- Step-by-step progress with color-coded output  
+- Tracks execution time  
+- Logs everything to a timestamped log file
+
+---
+
+## 📁 Output
+
+🗂 All actions and diagnostic results are saved in structured log files under the `debian-detox` directory. Each file is timestamped for easy tracking and auditing.
+
+---
+
+## 🚀 Usage Instructions
+
+1. **Save** the script as `debian-detox.sh`  
+2. **Make it executable**:  
+   ```bash
+   chmod +x debian-detox.sh
+   ```
+3. **Run it**:  
+   ```bash
+   ./debian-detox.sh
+   ```
+4. **Review logs** in the `debian-detox/` directory  
+
+---
+
+## 🧠 Tip
+
+Run `debian-detox.sh` regularly (e.g., weekly) to keep your system running at peak performance.
+
+---
+
+✅ **Tested on:** Ubuntu 20.04+, Debian 11+  
+🔒 **Safe & Non-destructive:** All operations are read-only or cleanup tasks. No system settings are changed without your control.
+
+---
