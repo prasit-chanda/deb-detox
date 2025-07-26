@@ -74,4 +74,4 @@
  - 🧪 **Tested on** Debian/Ubuntu Linux (x86_64)
  - 🔐 **Non-destructive** All actions are safe cleanup tasks that won’t change system settings or configurations.
 
-### ꧁.˳·˖✶𓆩 Revitalize your Debian system — safely, efficiently, and with full control 𓆪✶˖·˳.꧂
+#### ꧁.˳·˖✶𓆩 Revitalize your Debian system — safely, efficiently, and with full control 𓆪✶˖·˳.꧂
