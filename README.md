@@ -1,20 +1,23 @@
-# 🛠️ debian-detox.sh — System Maintenance & Health Check Script
+**ॐ नमः शिवाय**
 
-**Author**: Prasit Chanda  
-**Platform**: Debian / Ubuntu Linux  
-**Script Name**: `debian-detox.sh`  
+# 🛠️ One Run, lasting Impact
+
+`deb-detox`  
+
+**Author**   : `Prasit Bikash Chanda`  
+**Platform** : `Debian/Ubuntu Linux (x86_64)`
+
+### ᥫ᭡١٥٧٤♡ ⋆˚꩜｡ ✮⋆˙ ᢉ𐭩
 
 ---
 
-## 📌 Purpose
+## 🤷 Why deb-detox?
 
-`debian-detox.sh` is a comprehensive system maintenance and diagnostic tool for Debian-based Linux distributions. It automates routine cleanup, optimization, backup, and health-check tasks—helping you keep your system fast, secure, and healthy.
+**🛠️ deb-detox** Your system, like any machine, needs regular maintenance to stay fast, secure, and efficient. Over time, clutter builds up—unused files, system logs, old caches, outdated packages, and forgotten backups. These not only eat up disk space but can also slow down performance and expose you to security vulnerabilities.
 
----
+## 💃🏻 Features
 
-## ✨ Features
-
-### 📊 System Overview
+### 🖥️ System Overview
 - OS version, CPU, memory, and disk usage  
 - Battery status, running processes, and uptime
 
@@ -46,36 +49,29 @@
 - Tracks execution time  
 - Logs everything to a timestamped log file
 
----
+## 👀 What You See?
 
-## 📁 Output
+ - 🧩 **Intro Screen:**  Verifies system architecture, shell, permissions, and internet.
+ - 🔗 **Dependency Check:** Ensures required tools are installed.
+ - 🖥️ **System Information:** Shows OS, uptime, CPU, RAM, and disk usage.
+ - 🖧 **Network Information:** Displays interfaces, IPs, MAC, gateway, speed & latency.
+ - 🔥 **Firewall Status:** Displays UFW status and active rules.
+ - 🫧 **Cleanup Actions:** Removes caches, logs, old downloads, Docker & iOS junk, and purges memory.
+ - 🖴 **Disk Space Report:** Calculates space saved from cleanup and lists large files taking up disk space.
+ - 👩‍💼 **Execution Summary:** Presents total execution time and total space freed for a final overview.
+   
+## 🤷 How to Use?
 
-🗂 All actions and diagnostic results are saved in structured log files under the `debian-detox` directory. Each file is timestamped for easy tracking and auditing.
+ - **Download** the `deb-detox` in your workspace.
+ - **Make it Executable** by `chmod +x deb-detox`
+ - **Run deb-detox** by `./deb-detox`
+ - **Log DIR** `$HOME/deb-detox` `e.g. /Users/ozzy-osbourne/deb-detox`
+ - **Log File** `e.g. deb-detox-1753110067.log`
 
----
+## 👩🏻‍🔬 Insights
 
-## 🚀 Usage Instructions
+ - 🏃🏻‍♂️‍➡️ **Run** `deb-detox` regularly (e.g., weekly) to keep your system running at peak performance.
+ - 🧪 **Tested on** Debian/Ubuntu Linux (x86_64)
+ - 🔐 **Non-destructive** All actions are safe cleanup tasks that won’t change system settings or configurations.
 
-1. **Save** the script as `debian-detox.sh`  
-2. **Make it executable**:  
-   ```bash
-   chmod +x debian-detox.sh
-   ```
-3. **Run it**:  
-   ```bash
-   ./debian-detox.sh
-   ```
-4. **Review logs** in the `debian-detox/` directory  
-
----
-
-## 🧠 Tip
-
-Run `debian-detox.sh` regularly (e.g., weekly) to keep your system running at peak performance.
-
----
-
-✅ **Tested on:** Ubuntu 20.04+, Debian 11+  
-🔒 **Safe & Non-destructive:** All operations are read-only or cleanup tasks. No system settings are changed without your control.
-
----
+### ꧁.˳·˖✶𓆩 Revitalize your Debian system — safely, efficiently, and with full control 𓆪✶˖·˳.꧂
