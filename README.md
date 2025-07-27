@@ -1,6 +1,6 @@
 **ॐ नमः शिवाय**
 
-## 🛠️ One Run, lasting Impact
+## 🌿One Run, lasting Impact
 
 `deb-detox`  
 
@@ -11,7 +11,7 @@
 
 <pre><b>🤷 Why deb-detox?</b></pre>
 
-**🛠️ deb-detox** Debian system, like any machine, needs regular maintenance to stay fast, secure, and efficient. Over time, clutter builds up—unused files, system logs, old caches, outdated packages, and forgotten backups. These not only eat up disk space but can also slow down performance and expose you to security vulnerabilities.
+**🌿deb-detox** Just like any finely tuned machine, your Debian system needs regular care to perform at its best. Over time, it quietly accumulates digital clutter — old logs, cached packages, orphaned dependencies, temporary files, outdated backups, and software you no longer use. Left unchecked, this buildup doesn't just hog valuable disk space — it drags down system performance, clutters your environment, and in some cases, can even create security risks. What once felt fast and responsive may start to feel sluggish and unreliable. Routine maintenance isn’t just a nice-to-have — it’s essential for keeping your system fast, secure, and efficient.
 
 <pre><b>💃🏻 Features</b></pre>
 
