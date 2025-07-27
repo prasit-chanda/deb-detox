@@ -1,6 +1,6 @@
 **ॐ नमः शिवाय**
 
-# 🛠️ One Run, lasting Impact
+## 🛠️ One Run, lasting Impact
 
 `deb-detox`  
 
